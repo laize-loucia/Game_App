@@ -8,4 +8,10 @@
   <body>
     <img src="" alt="Mon image de test" />
   </body>
+
+<?php
+// Accueil de la page
+echo "test";
+?>
+
 </html>
