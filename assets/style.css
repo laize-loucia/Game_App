@@ -1,0 +1,377 @@
+
+    .logo-img {
+      width: 28px; height: 28px;
+      filter: drop-shadow(0 0 2px rgba(0,255,127,0.8));
+    }
+    
+    :root {
+      --bg-grad-from: lightgreen; /*bg-gradient start c'est la couleur de base*/
+      --bg-grad-to:   lightgreen; /*bg-gradient end c'est la couleur de transition*/
+      --card-bg:     white; /*fond des cartes et éléments flottants*/
+      --card-border:  rgba(255, 255, 255, 0.12);
+      --vert:         #00ff7f;
+      --vert-hover:   #00e670;
+      --jaune:        #f59e0b;
+      --rouge:        #f87171;
+      --bleu-clair:   #60a5fa;
+      --texte:        black;
+      --texte-doux:   black;
+      --texte-label: black; 
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, var(--bg-grad-from) 0%, lightgreen 50%, var(--bg-grad-to) 100%);
+      min-height: 100vh;
+      color: var(--texte);
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ── LOGIN ── */
+    #screen-login {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 20px 30px;
+    }
+    .login-top { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .login-icon {
+      width: 80px; height: 80px;
+      background: rgba(0,255,127,0.12);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      border: 1px solid rgba(0,255,127,0.25);
+    }
+    .login-title { font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; text-align: center; }
+    .login-subtitle { color: var(--texte-doux); font-size: 1rem; text-align: center; }
+    .login-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      width: 100%; max-width: 460px;
+      backdrop-filter: blur(12px);
+    }
+    .login-card h2 { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 1.8rem; }
+    .field-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--texte-doux); margin-bottom: 0.5rem; }
+    .input-wrapper { position: relative; margin-bottom: 0.4rem; }
+    .input-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--texte-label); }
+    .input-wrapper input {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 0.85rem 1rem 0.85rem 2.8rem;
+      color: var(--texte);
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .input-wrapper input::placeholder { color: var(--texte-label); }
+    .input-wrapper input:focus { border-color: var(--vert); background: rgba(255,255,255,0.12); }
+    .input-hint { font-size: 0.75rem; color: var(--texte-label); margin-bottom: 1.4rem; padding-left: 2px; }
+    .btn-primary {
+      width: 100%;
+      background: var(--vert); color: #111;
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+      border: none; border-radius: 12px;
+      padding: 0.95rem 1.5rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(0,255,127,0.3);
+      margin-top: 0.5rem;
+    }
+    .btn-primary:hover { background: var(--vert-hover); box-shadow: 0 6px 28px rgba(0,255,127,0.45); transform: translateY(-1px); }
+    .erreur {
+      background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 10px; padding: 0.7rem 1rem;
+      color: var(--rouge); font-size: 0.85rem; text-align: center; margin-bottom: 1rem;
+    }
+    .login-footer { font-size: 0.78rem; color: var(--texte-label); text-align: center; }
+
+    /* ── GAME ── */
+    #screen-game { min-height: 100vh; padding-top: 70px; }
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.9rem 2rem;
+      background: lightgreen; backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 100;
+    }
+    .navbar-logo { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; }
+    .navbar-logo .logo-icon { color: var(--vert); }
+    .navbar-actions { display: flex; gap: 0.6rem; align-items: center; }
+    .btn-user {
+      background: green; border: 1px solid darkgreen; /* couleur de fond et bordure du bouton */
+      border-radius: 10px; color: var(--texte);
+      font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700;
+      padding: 0.5rem 1rem;
+      display: flex; align-items: center; gap: 0.4rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-user:hover { background: lightgreen; }
+    .btn-logout {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px; color: var(--texte);
+      font-size: 1rem; padding: 0.5rem 0.75rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.13); }
+    .game-content { display: flex; flex-direction: column; align-items: center; padding: 1.5rem 1rem 2rem; }
+    .game-instruction { color: var(--texte-doux); font-size: 0.95rem; margin-bottom: 1.2rem; text-align: center; }
+    .canvas-wrapper { position: relative; }
+    #gameCanvas { display: block; border-radius: 12px; background: #0a0a0a; box-shadow: 0 8px 40px rgba(0,0,0,0.6); }
+    .game-overlay {
+      position: absolute; inset: 0; border-radius: 12px;
+      background: rgba(0,0,0,0.72);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      backdrop-filter: blur(2px);
+    }
+    .game-overlay h3 { font-size: 1.5rem; font-weight: 800; }
+    .game-overlay p { font-size: 0.9rem; color: var(--texte-doux); }
+    .overlay-btn {
+      background: var(--vert); color: #111;
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem;
+      border: none; border-radius: 10px; padding: 0.65rem 1.6rem;
+      cursor: pointer; margin-top: 6px; transition: all 0.2s;
+      box-shadow: 0 3px 14px rgba(0,255,127,0.3);
+    }
+    .overlay-btn:hover { background: var(--vert-hover); transform: translateY(-1px); }
+    .score-display { display: flex; gap: 2.5rem; margin-top: 1.2rem; }
+    .score-item { text-align: center; }
+    .score-item-label { font-size: 0.78rem; color: var(--texte-label); margin-bottom: 2px; }
+    .score-item-val { font-size: 1.8rem; font-weight: 800; }
+    .score-item-val.best { color: var(--vert); }
+    .btn-instructions {
+      margin-top: 1.2rem;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px; padding: 0.85rem 2rem;
+      color: var(--texte-doux);
+      font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 0.5rem;
+      min-width: 360px; justify-content: center;
+      transition: background 0.2s;
+    }
+    .btn-instructions:hover { background: rgba(255,255,255,0.1); }
+    .instructions-panel {
+      display: none;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 1.2rem 1.5rem;
+      margin-top: 0.8rem; max-width: 400px; width: 100%;
+      font-size: 0.88rem; color: var(--texte-doux); line-height: 1.8;
+    }
+    .instructions-panel.visible { display: block; }
+
+    /* ── GAMEOVER SCREEN ── */
+    #screen-gameover {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 50px 20px 40px; gap: 0;
+    }
+    .trophy-circle {
+      width: 80px; height: 80px;
+      background: rgba(245,158,11,0.15); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; border: 1px solid rgba(245,158,11,0.25);
+      margin-bottom: 1rem;
+    }
+    .gameover-title { font-size: 2.6rem; font-weight: 800; text-align: center; margin-bottom: 0.3rem; }
+    .gameover-subtitle { color: var(--texte-doux); text-align: center; margin-bottom: 1.8rem; }
+    .score-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 2rem;
+      width: 100%; max-width: 640px;
+      backdrop-filter: blur(12px);
+    }
+    .score-joueur-label { font-size: 0.75rem; color: var(--texte-label); text-align: center; margin-bottom: 2px; }
+    .score-joueur-nom { font-size: 1.4rem; font-weight: 700; color: var(--vert); text-align: center; margin-bottom: 1.4rem; }
+    .score-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .score-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+    .score-box {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 1.2rem 1rem; text-align: center;
+    }
+    .score-box-icon { font-size: 1rem; margin-bottom: 0.3rem; }
+    .score-box-label { font-size: 0.72rem; color: var(--texte-label); margin-bottom: 0.4rem; }
+    .score-box-val { font-size: 2.4rem; font-weight: 800; line-height: 1; }
+    .score-box-val.sm { font-size: 1.8rem; }
+    .val-vert  { color: var(--vert); }
+    .val-jaune { color: var(--jaune); }
+    .val-rouge { color: var(--rouge); }
+    .val-bleu  { color: var(--bleu-clair); }
+    .rang-box {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 1rem 1.2rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .rang-label { font-size: 0.72rem; color: var(--texte-label); margin-bottom: 2px; }
+    .rang-val { font-size: 1.2rem; font-weight: 800; }
+    .progression-box {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 1.2rem;
+    }
+    .progression-titre { font-size: 0.82rem; font-weight: 700; color: var(--texte-doux); margin-bottom: 0.7rem; }
+    .progression-bar-bg { height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; margin-bottom: 0.5rem; }
+    .progression-bar { height: 100%; background: var(--vert); border-radius: 99px; transition: width 0.8s ease; }
+    .progression-texte { font-size: 0.75rem; color: var(--texte-label); }
+    .gameover-btns { display: flex; flex-direction: column; gap: 0.8rem; width: 100%; max-width: 640px; margin-top: 1rem; }
+    .btn-green {
+      background: var(--vert); color: #111;
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+      border: none; border-radius: 12px; padding: 0.95rem 1.5rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: all 0.2s; box-shadow: 0 4px 20px rgba(0,255,127,0.3);
+    }
+    .btn-green:hover { background: var(--vert-hover); transform: translateY(-1px); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; color: var(--texte);
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1rem;
+      padding: 0.95rem 1.5rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+    .gameover-astuce { font-size: 0.82rem; color: var(--texte-label); text-align: center; margin-top: 1.2rem; max-width: 500px; }
+
+    @media (max-width: 480px) {
+      .login-title { font-size: 2rem; }
+      .btn-instructions { min-width: unset; width: 100%; }
+      #gameCanvas { width: 320px !important; height: 320px !important; }
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 20px 30px;
+    }
+    .login-top { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .login-icon {
+      width: 80px; height: 80px;
+      background: rgba(0,255,127,0.12);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      border: 1px solid rgba(0,255,127,0.25);
+    }
+    .login-title { font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; text-align: center; }
+    .login-subtitle { color: var(--texte-doux); font-size: 1rem; text-align: center; }
+    .login-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 2.5rem 2rem;
+      width: 100%; max-width: 460px;
+      backdrop-filter: blur(12px);
+    }
+    .login-card-title { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 1.8rem; }
+    .field-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--texte-doux); margin-bottom: 0.5rem; }
+    .input-hint { font-size: 0.75rem; color: var(--texte-label); margin-bottom: 1.2rem; padding-left: 2px; }
+    .btn-submit {
+      width: 100%;
+      background: var(--vert); color: #111;
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+      border: none; border-radius: 12px; padding: 0.95rem 1.5rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(0,255,127,0.3);
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { background: var(--vert-hover); box-shadow: 0 6px 28px rgba(0,255,127,0.45); transform: translateY(-1px); }
+    .login-footer { font-size: 0.78rem; color: var(--texte-label); text-align: center; }
+
+    /*-score-*/
+    ody {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center;
+      padding: 50px 20px 40px;
+      gap: 0;
+    }
+
+    .trophy-circle {
+      width: 80px; height: 80px;
+      background: rgba(245,158,11,0.15); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; border: 1px solid rgba(245,158,11,0.25);
+      margin-bottom: 1rem;
+    }
+
+    .gameover-title { font-size: 2.6rem; font-weight: 800; text-align: center; margin-bottom: 0.3rem; }
+    .gameover-subtitle { color: var(--texte-doux); text-align: center; margin-bottom: 1.8rem; }
+
+    .score-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 2rem;
+      width: 100%; max-width: 640px;
+      backdrop-filter: blur(12px);
+    }
+
+    .score-joueur-label { font-size: 0.75rem; color: var(--texte-label); text-align: center; margin-bottom: 2px; }
+    .score-joueur-nom   { font-size: 1.4rem; font-weight: 700; color: var(--vert); text-align: center; margin-bottom: 1.4rem; }
+
+    .score-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+
+    .score-box {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 1.2rem 1rem; text-align: center;
+    }
+    .score-box-icon  { font-size: 1rem; margin-bottom: 0.3rem; }
+    .score-box-label { font-size: 0.72rem; color: var(--texte-label); margin-bottom: 0.4rem; }
+    .score-box-val   { font-size: 2.4rem; font-weight: 800; line-height: 1; }
+    .val-vert  { color: var(--vert); }
+
+    /* Message confirmation */
+    .message-box {
+      border-radius: 12px; padding: 0.9rem 1.2rem;
+      font-size: 0.9rem; text-align: center; margin-bottom: 1rem;
+    }
+    .message-box.success {
+      background: rgba(0,255,127,0.1); border: 1px solid rgba(0,255,127,0.25);
+      color: var(--vert);
+    }
+    .message-box.error {
+      background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3);
+      color: var(--rouge);
+    }
+
+    .gameover-btns {
+      display: flex; flex-direction: column; gap: 0.8rem;
+      width: 100%; max-width: 640px; margin-top: 1rem;
+    }
+
+    .btn-green {
+      background: var(--vert); color: #111;
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+      border: none; border-radius: 12px; padding: 0.95rem 1.5rem;
+      cursor: pointer; text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: all 0.2s; box-shadow: 0 4px 20px rgba(0,255,127,0.3);
+      width: 100%;
+    }
+    .btn-green:hover { background: var(--vert-hover); transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; color: var(--texte);
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1rem;
+      padding: 0.95rem 1.5rem; cursor: pointer; text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: background 0.2s; width: 100%;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
