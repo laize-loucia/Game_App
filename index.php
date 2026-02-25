@@ -26,19 +26,25 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
   <div id="screen-game" class="screen active">
     <nav class="navbar">
       <div class="navbar-logo">
-      <img src="assets/snake.png" alt="Logo Snake Game" class="logo-img" />
+      <img src="assets/snake.png" alt="Logo Snake Game" class="logo-img"> Snake game </img> 
       </div>
       <div class="navbar-actions">
         <button class="btn-user">👤 <?= $pseudo ?></button>
-        <button class="btn-logout" onclick="location.href='logout.php'" title="Déconnexion">↪</button>
+        <button class="btn-logout" onclick="location.href='logout.php'" title="Déconnexion">↪ Déconnexion</button>
       </div>
     </nav>
 
     <div class="game-content">
-      <p class="game-instruction">Utilisez les flèches directionnelles pour contrôler le serpent</p>
+      <h2 class ="game-instruction">Règles du jeu : </h2>
+      <div class="game-instruction">
+       🎯 <strong>Objectif :</strong> Mangez les pommes rouges pour grandir et marquer des points.<br/>
+        ⬅️➡️⬆️⬇️ <strong>Contrôles :</strong> Flèches directionnelles du clavier.<br/>
+        💀 <strong>Game Over :</strong> Si vous touchez un mur ou votre propre corps.<br/>
+        🏆 Chaque pomme vaut 10 points. Battez votre record !
+      </div>
 
       <div class="canvas-wrapper">
-        <canvas id="gameCanvas" width="390" height="390"></canvas>
+        <canvas id="gameCanvas" width="595" height="595"></canvas>
 
         <div class="game-overlay" id="overlay-start">
           <h3>Appuyez sur une flèche pour commencer</h3>
@@ -61,16 +67,6 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
           <div class="score-item-label">Meilleur Score</div>
           <div class="score-item-val best" id="best-score-display">0</div>
         </div>
-      </div>
-
-      <button class="btn-instructions" onclick="toggleInstructions()">
-        ℹ️ &nbsp;Afficher les instructions
-      </button>
-      <div class="instructions-panel" id="instructions-panel">
-        🎯 <strong>Objectif :</strong> Mangez les pommes rouges pour grandir et marquer des points.<br/>
-        ⬅️➡️⬆️⬇️ <strong>Contrôles :</strong> Flèches directionnelles du clavier.<br/>
-        💀 <strong>Game Over :</strong> Si vous touchez un mur ou votre propre corps.<br/>
-        🏆 Chaque pomme vaut 10 points. Battez votre record !
       </div>
     </div>
   </div>
@@ -107,45 +103,20 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
         </div>
       </div>
 
-      <div class="score-grid-3">
-        <div class="score-box">
-          <div class="score-box-label">Pommes</div>
-          <div class="score-box-val sm val-rouge" id="go-pommes">0</div>
-        </div>
-        <div class="score-box">
-          <div class="score-box-label">Longueur</div>
-          <div class="score-box-val sm val-bleu" id="go-longueur">3</div>
-        </div>
-        <div class="score-box">
-          <div class="score-box-label">Points/Pomme</div>
-          <div class="score-box-val sm val-bleu">10</div>
-        </div>
-      </div>
-
-      <div class="progression-box">
-        <div class="progression-titre">📈 Progression</div>
-        <div class="progression-bar-bg">
-          <div class="progression-bar" id="go-prog-bar" style="width:5%"></div>
-        </div>
-        <p class="progression-texte" id="go-prog-txt">20 points pour devenir Intermédiaire</p>
-      </div>
-    </div>
-
-    <div class="gameover-btns">
+      <div class="gameover-btns">
       <button class="btn-green" onclick="rejouer()">↺ &nbsp; Rejouer</button>
+      <button class="btn-secondary" onclick="envoyerScoreMail()">&nbsp; Recevoir mon score</button>
       <button class="btn-secondary" onclick="location.href='logout.php'">↪ &nbsp; Déconnexion</button>
     </div>
-
-    <p class="gameover-astuce" id="go-astuce">💡 Planifiez vos mouvements à l'avance pour obtenir un meilleur score !</p>
   </div>
 
 
   <script>
-    const BOX        = 30;
-    const COLS       = 13;
-    const ROWS       = 13;
+    const BOX        = 35;
+    const COLS       = 17;
+    const ROWS       = 17;
     const GAME_SPEED = 100;
-    const PTS        = 10;
+    const PTS        = 1;
     const PSEUDO     = <?= json_encode($pseudo) ?>;
 
     let bestScore = 0, score = 0, pommes = 0;
@@ -184,9 +155,7 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       const mx = Math.floor(COLS / 2) * BOX;
       const my = Math.floor(ROWS / 2) * BOX;
       snake = [
-        { x: mx,         y: my },
-        { x: mx - BOX,   y: my },
-        { x: mx - BOX*2, y: my }
+        { x: mx, y: my },
       ];
       food = spawnFood();
 
@@ -217,14 +186,14 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       for (let i=0;i<=COLS;i++) { ctx.beginPath(); ctx.moveTo(i*BOX,0); ctx.lineTo(i*BOX,H); ctx.stroke(); }
       for (let j=0;j<=ROWS;j++) { ctx.beginPath(); ctx.moveTo(0,j*BOX); ctx.lineTo(W,j*BOX); ctx.stroke(); }
 
-      ctx.fillStyle = '#f87171';
+      ctx.fillStyle = '#ff0000';
       ctx.beginPath();
       ctx.arc(food.x+BOX/2, food.y+BOX/2, BOX/2-3, 0, Math.PI*2);
       ctx.fill();
 
       snake.forEach((s,i) => {
-        ctx.fillStyle = i===0 ? '#00ff7f' : '#00cc60';
-        rRect(s.x+2, s.y+2, BOX-4, BOX-4, 4);
+        ctx.fillStyle = i===0 ? 'green' : '#00cc60';
+        rRect(s.x+2, s.y+2, BOX-4, BOX-4, 4);  
         ctx.fill();
       });
     }
@@ -248,8 +217,7 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       if (direction==='DOWN')  h.y += BOX;
 
       if (h.x<0 || h.x>=COLS*BOX || h.y<0 || h.y>=ROWS*BOX) { finDeJeu(); return; }
-      if (snake.some(s=>s.x===h.x && s.y===h.y))             { finDeJeu(); return; }
-
+      if (snake.slice(1).some(s=>s.x===h.x && s.y===h.y)) { finDeJeu(); return; }
       if (h.x===food.x && h.y===food.y) {
         score += PTS; pommes++;
         food = spawnFood();
@@ -265,41 +233,29 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
     }
 
     function finDeJeu() {
-      clearInterval(gameLoop);
-      document.getElementById('overlay-gameover').style.display = 'flex';
-      document.getElementById('overlay-score-txt').textContent  = 'Score : ' + score;
-      setTimeout(afficherScoreFinal, 1500);
-    }
+  clearInterval(gameLoop);
+  document.getElementById('overlay-gameover').style.display = 'flex';
+  document.getElementById('overlay-score-txt').textContent  = 'Score : ' + score;
+  setTimeout(() => {
+    afficherScoreFinal();
+    showScreen('screen-gameover');
+  }, 1500);
+}
 
-    function afficherScoreFinal() {
-      document.getElementById('go-score').textContent    = score;
-      document.getElementById('go-record').textContent   = bestScore;
-      document.getElementById('go-pommes').textContent   = pommes;
-      document.getElementById('go-longueur').textContent = snake.length;
+function afficherScoreFinal() {
+  document.getElementById('go-score').textContent  = score;
+  document.getElementById('go-record').textContent = bestScore;
 
-      let rang='Débutant', prochainRang='Intermédiaire', seuil=20, pct=0;
-      if      (score>=100) { rang='Expert';        prochainRang='';       seuil=100; pct=100; }
-      else if (score>=50)  { rang='Avancé';        prochainRang='Expert'; seuil=100; pct=((score-50)/50)*100; }
-      else if (score>=20)  { rang='Intermédiaire'; prochainRang='Avancé'; seuil=50;  pct=((score-20)/30)*100; }
-      else                 { pct=(score/20)*100; }
+  let rang = 'Débutant';
+  if      (score >= 50) rang = 'Expert';
+  else if (score >= 30)  rang = 'Avancé';
+  else if (score >= 15)  rang = 'Intermédiaire';
+  document.getElementById('go-rang').textContent = rang;
 
-      document.getElementById('go-rang').textContent     = rang;
-      document.getElementById('go-prog-bar').style.width = Math.max(3,pct)+'%';
-      document.getElementById('go-prog-txt').textContent = prochainRang
-        ? (seuil-score) + ' points pour devenir ' + prochainRang
-        : '🏅 Rang maximum atteint !';
-
-      const idx = score>=100?3 : score>=50?2 : score>=20?1 : 0;
-      document.getElementById('gameover-subtitle').textContent =
-        ["Continue de t'entraîner ! 💪",'Bonne partie ! 🎯','Excellent score ! 🔥','Tu es imbattable ! 🏆'][idx];
-      document.getElementById('go-astuce').textContent =
-        ["💡 Planifiez vos mouvements à l'avance !",
-         '💡 Longez les murs pour gagner de la place.',
-         '💡 Anticipez la position de la prochaine pomme !',
-         '💡 Pouvez-vous battre votre propre record ?'][idx];
-
-      showScreen('screen-gameover');
-    }
+  const idx = score>=100?3 : score>=50?2 : score>=20?1 : 0;
+  document.getElementById('gameover-subtitle').textContent =
+    ["Continue de t'entraîner ! 💪",'Bonne partie ! 🎯','Excellent score ! 🔥','Tu es imbattable ! 🏆'][idx];
+}
 
     document.addEventListener('keydown', e => {
       const map = { ArrowLeft:'LEFT', ArrowRight:'RIGHT', ArrowUp:'UP', ArrowDown:'DOWN' };
@@ -315,9 +271,35 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       }
     });
 
-    function toggleInstructions() {
-      document.getElementById('instructions-panel').classList.toggle('visible');
-    }
-  </script>
+    function envoyerScoreMail() {
+  const sujet = encodeURIComponent('Mon score Snake Game 🐍');
+  const corps = encodeURIComponent(
+    'Bonjour !\n\n' +
+    'Voici mon score pour la partie Snake :\n\n' +
+    '🎯 Score : ' + score + ' points\n' +
+    '🏆 Meilleur score : ' + bestScore + ' points\n' +
+    '👤 Joueur : ' + PSEUDO + '\n\n' +
+    '📅 Date : ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
+    'Bonne chance pour la prochaine partie !'
+  );
+  window.location.href = 'mailto:?subject=' + sujet + '&body=' + corps;
+}
+
+
+</script>
+
+  <div id="modal-mail" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999; justify-content:center; align-items:center;">
+  <div style="background:#1a1a2e; padding:2rem; border-radius:1rem; text-align:center; width:300px;">
+    <p style="color:white; font-size:1.1rem; margin-bottom:1rem;">📧 Entrez votre adresse mail</p>
+    <input id="input-mail" type="email" placeholder="exemple@mail.com"
+      style="width:100%; padding:0.6rem; border-radius:0.5rem; border:none; margin-bottom:1rem;" />
+    <div style="display:flex; gap:0.5rem; justify-content:center;">
+      <button class="btn-green" onclick="confirmerEnvoi()">Envoyer</button>
+      <button class="btn-secondary" onclick="document.getElementById('modal-mail').style.display='none'">Annuler</button>
+    </div>
+    <p id="mail-retour" style="color:#00ff7f; margin-top:0.8rem; font-size:0.9rem;"></p>
+  </div>
+</div>
+
 </body>
 </html>

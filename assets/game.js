@@ -1,12 +1,12 @@
 /*Snake Game*/
 const BOX        = 30; //taille d'une case en pixels
-const COLS       = 13; // nombre de colonnes (largeur du canvas / BOX)
-const ROWS       = 13; // nombre de lignes (hauteur du canvas / BOX)
+const COLS       = 17; // nombre de colonnes (largeur du canvas / BOX)
+const ROWS       = 17; // nombre de lignes (hauteur du canvas / BOX)
 const GAME_SPEED = 100; // vitesse du jeu
-const pt      = 1;
+const PTS = 1;
 
 let bestScore    = 0;
-let score        = 0;
+let score        = 0
 let pommes       = 0;
 let snake, direction, nextDir, food, gameLoop, gameStarted;
 
