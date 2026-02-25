@@ -7,7 +7,7 @@ L'interface est épurée et simple avec des boutons de call-to-action bien visib
 Le but est de ne pas disperser l'attention de l'enfant avec trop d'éléments et de détails.&nbsp;
 
 L'enfant peut jouer au jeux sous le contrôle du parent qui a le mot de passe et l'accès au compte de mail.
-**Le mot de passe pour jouer est Snake2026!*
+**Le mot de passe pour jouer est 1234*
 
 
 # Structure souhaitée
@@ -20,6 +20,9 @@ L'enfant peut jouer au jeux sous le contrôle du parent qui a le mot de passe et
 
 
 &nbsp;
+
+En raison d'un manque de temps, nous n'avons pas eu le temps de développer cette structure de fichier.
+
 
 # Technologies
 
@@ -44,8 +47,6 @@ php -v.
 
 &nbsp;
 
-Ouvrir dans le navigateur
-
-```php -S localhost:8000```
+Ouvrir dans le navigateur ```php -S localhost:8000```
 
 
