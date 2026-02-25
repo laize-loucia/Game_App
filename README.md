@@ -40,9 +40,6 @@ Vérifie que ça marche :
 php -v.
 ```
 
-Démarrer le serveur local depuis le dossier projet :
-```cd game_app/public```
-
 &nbsp;
 
 Ouvrir dans le navigateur
