@@ -42,49 +42,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
+  <div class="login-wrapper">
 
-  <div class="login-top">
-   <img src="assets/snake.png" alt="Logo Snake Game" weight=100 />
-    <h1 class="login-title">Snake Game</h1>
-    <p class="login-subtitle">Préparez-vous à jouer au classique !</p>
+    <div class="login-top">
+      <img src="assets/snake.png" alt="Logo Snake Game" width="100" />
+      <h1 class="login-title">Snake Game</h1>
+      <p class="login-subtitle">Préparez-vous à jouer au classique !</p>
+    </div>
+
+    <div class="login-card">
+      <p class="login-card-title">Bienvenue</p>
+
+      <?php if ($erreur): ?>
+        <div class="erreur"><?= htmlspecialchars($erreur) ?></div>
+      <?php endif; ?>
+
+      <form method="POST">
+        <!-- Pseudo -->
+        <label class="field-label" for="pseudo">Votre pseudo</label>
+        <div class="input-wrapper" style="margin-bottom:0.4rem;">
+          <span class="input-icon">👤</span>
+          <input type="text" id="pseudo" name="pseudo"
+                 placeholder="Votre pseudo"
+                 value="<?= isset($_POST['pseudo']) ? htmlspecialchars($_POST['pseudo']) : '' ?>"
+                 minlength="2" maxlength="20" required autocomplete="off" />
+        </div>
+        <p class="input-hint">Minimum 2 caractères, maximum 20</p>
+
+        <!-- Mot de passe -->
+        <label class="field-label" for="password">Mot de passe</label>
+        <div class="input-wrapper" style="margin-bottom:1.5rem;">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="password" name="password"
+                 placeholder="Mot de passe" required />
+        </div>
+
+        <button type="submit" class="btn-submit">
+          Commencer à jouer &nbsp;→
+        </button>
+      </form>
+    </div>
+
+    <p class="login-footer">Créé avec PHP &amp; Canvas • © 2026</p>
+
   </div>
-
-  <div class="login-card">
-    <p class="login-card-title">Bienvenue</p>
-
-    <?php if ($erreur): ?>
-      <div class="erreur"><?= htmlspecialchars($erreur) ?></div>
-    <?php endif; ?>
-
-    <form method="POST">
-
-      <!-- Pseudo -->
-      <label class="field-label" for="pseudo">Votre pseudo</label>
-      <div class="input-wrapper" style="margin-bottom:0.4rem;">
-        <span class="input-icon">👤</span>
-        <input type="text" id="pseudo" name="pseudo"
-               placeholder="Votre pseudo"
-               value="<?= isset($_POST['pseudo']) ? htmlspecialchars($_POST['pseudo']) : '' ?>"
-               minlength="2" maxlength="20" required autocomplete="off" />
-      </div>
-      <p class="input-hint">Minimum 2 caractères, maximum 20</p>
-
-      <!-- Mot de passe -->
-      <label class="field-label" for="password">Mot de passe</label>
-      <div class="input-wrapper" style="margin-bottom:1.5rem;">
-        <span class="input-icon">🔒</span>
-        <input type="password" id="password" name="password"
-               placeholder="Mot de passe" required />
-      </div>
-
-      <button type="submit" class="btn-submit">
-        Commencer à jouer &nbsp;→
-      </button>
-
-    </form>
-  </div>
-
-  <p class="login-footer">Créé avec PHP &amp; Canvas • © 2026</p>
-
 </body>
 </html>

@@ -26,7 +26,7 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
   <div id="screen-game" class="screen active">
     <nav class="navbar">
       <div class="navbar-logo">
-      <img src="assets/snake.png" alt="Logo Snake Game" class="logo-img"> Snake game </img> 
+        <img src="assets/snake.png" alt="Logo Snake Game" class="logo-img" /> Snake game
       </div>
       <div class="navbar-actions">
         <button class="btn-user">👤 <?= $pseudo ?></button>
@@ -34,38 +34,44 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       </div>
     </nav>
 
-    <div class="game-content">
-      <h2 class ="game-instruction">Règles du jeu : </h2>
-      <div class="game-instruction">
-       🎯 <strong>Objectif :</strong> Mangez les pommes rouges pour grandir et marquer des points.<br/>
-        ⬅️➡️⬆️⬇️ <strong>Contrôles :</strong> Flèches directionnelles du clavier.<br/>
-        💀 <strong>Game Over :</strong> Si vous touchez un mur ou votre propre corps.<br/>
-        🏆 Chaque pomme vaut 10 points. Battez votre record !
+    <div class="game-layout">
+
+      <!-- Règles à gauche -->
+      <div class="rules-panel">
+        <h2>Règles du jeu :</h2>
+        <strong>Objectif :</strong> Mangez les pommes rouges pour que le serpent grandisse et marque des points.<br/><br/>
+        <strong>Contrôles :</strong> Utiliser les flèches directionnelles du clavier.<br/><br/>
+        <strong>Game Over :</strong> Si vous touchez un mur ou le corps du serpent.<br/><br/>
+        🏆 Chaque pomme vaut 1 point. Battez votre record !
       </div>
 
-      <div class="canvas-wrapper">
-        <canvas id="gameCanvas" width="595" height="595"></canvas>
+      <!-- Jeu au centre -->
+      <div class="game-content">
+        <div class="canvas-wrapper">
+          <canvas id="gameCanvas" width="595" height="595"></canvas>
 
-        <div class="game-overlay" id="overlay-start">
-          <h3>Appuyez sur une flèche pour commencer</h3>
-          <p>Utilisez les flèches directionnelles</p>
+          <div class="game-overlay" id="overlay-start">
+            <h3>Appuyez sur une flèche pour commencer</h3>
+            <p>Utilisez les flèches directionnelles</p>
+          </div>
+
+          <div class="game-overlay" id="overlay-gameover" style="display:none;">
+            <h3>Game Over!</h3>
+            <p id="overlay-score-txt">Score : 0</p>
+            <button class="overlay-btn" onclick="rejouer()">Rejouer</button>
+          </div>
         </div>
 
-        <div class="game-overlay" id="overlay-gameover" style="display:none;">
-          <h3>Game Over!</h3>
-          <p id="overlay-score-txt">Score : 0</p>
-          <button class="overlay-btn" onclick="rejouer()">Rejouer</button>
-        </div>
-      </div>
-
-      <div class="score-display">
-        <div class="score-item">
-          <div class="score-item-label">Score</div>
-          <div class="score-item-val" id="score-display">0</div>
-        </div>
-        <div class="score-item">
-          <div class="score-item-label">Meilleur Score</div>
-          <div class="score-item-val best" id="best-score-display">0</div>
+        <!-- Score sous le canvas -->
+        <div class="score-display">
+          <div class="score-item">
+            <div class="score-item-label">Score</div>
+            <div class="score-item-val" id="score-display">0</div>
+          </div>
+          <div class="score-item">
+            <div class="score-item-label">Meilleur Score</div>
+            <div class="score-item-val best" id="best-score-display">0</div>
+          </div>
         </div>
       </div>
     </div>
@@ -74,6 +80,16 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
 
   <!--fin du jeu-->
   <div id="screen-gameover" class="screen">
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <img src="assets/snake.png" alt="Logo Snake Game" class="logo-img" /> Snake game
+      </div>
+      <div class="navbar-actions">
+        <button class="btn-user">👤 <?= $pseudo ?></button>
+        <button class="btn-logout" onclick="location.href='logout.php'" title="Déconnexion">↪ Déconnexion</button>
+      </div>
+    </nav>
+
     <div class="trophy-circle">🏆</div>
     <h1 class="gameover-title">Game Over</h1>
     <p class="gameover-subtitle" id="gameover-subtitle">Continue de t'entraîner ! 💪</p>
@@ -102,10 +118,11 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
           <div class="rang-val" id="go-rang">Débutant</div>
         </div>
       </div>
+    </div>
 
-      <div class="gameover-btns">
+    <div class="gameover-btns">
       <button class="btn-green" onclick="rejouer()">↺ &nbsp; Rejouer</button>
-      <button class="btn-secondary" onclick="envoyerScoreMail()">&nbsp; Recevoir mon score</button>
+      <button class="btn-mail" onclick="envoyerScoreMail()">📧 &nbsp; Recevoir mon score</button>
       <button class="btn-secondary" onclick="location.href='logout.php'">↪ &nbsp; Déconnexion</button>
     </div>
   </div>
@@ -119,7 +136,9 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
     const PTS        = 1;
     const PSEUDO     = <?= json_encode($pseudo) ?>;
 
-    let bestScore = 0, score = 0, pommes = 0;
+    let score = 0, pommes = 0;
+    // Récupère le meilleur score sauvegardé pour ce pseudo
+    let bestScore = parseInt(localStorage.getItem('bestScore_' + PSEUDO)) || 0;
     let snake, direction, nextDir, food, gameLoop, gameStarted;
 
     const canvas = document.getElementById('gameCanvas');
@@ -167,6 +186,7 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       setTimeout(dessiner, 10); // petit délai pour que le DOM soit visible avant de dessiner
     }
 
+    // Génère une position pour la nourriture qui n'est pas sur le serpent
     function spawnFood() {
       let p;
       do {
@@ -175,6 +195,7 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       return p;
     }
 
+    // Dessine le fond, la grille, la nourriture et le serpent
     function dessiner() {
       const W = COLS*BOX, H = ROWS*BOX;
       ctx.clearRect(0,0,W,H);
@@ -198,6 +219,7 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       });
     }
 
+    // Dessine un rectangle arrondi
     function rRect(x,y,w,h,r) {
       ctx.beginPath();
       ctx.moveTo(x+r,y);
@@ -208,6 +230,7 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       ctx.closePath();
     }
 
+    // Logique de déplacement du serpent, gestion des collisions et de la nourriture
     function tick() {
       direction = nextDir;
       const h = { x: snake[0].x, y: snake[0].y };
@@ -225,6 +248,8 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
         if (score > bestScore) {
           bestScore = score;
           document.getElementById('best-score-display').textContent = bestScore;
+          // Sauvegarde le meilleur score dans le localStorage lié au pseudo
+          localStorage.setItem('bestScore_' + PSEUDO, bestScore);
         }
       } else { snake.pop(); }
 
@@ -232,30 +257,31 @@ $pseudo = isset($_SESSION['pseudo']) ? htmlspecialchars($_SESSION['pseudo']) : '
       dessiner();
     }
 
+    // Affiche l'écran de fin de jeu et le score final
     function finDeJeu() {
-  clearInterval(gameLoop);
-  document.getElementById('overlay-gameover').style.display = 'flex';
-  document.getElementById('overlay-score-txt').textContent  = 'Score : ' + score;
-  setTimeout(() => {
-    afficherScoreFinal();
-    showScreen('screen-gameover');
-  }, 1500);
-}
+      clearInterval(gameLoop);
+      document.getElementById('overlay-gameover').style.display = 'flex';
+      document.getElementById('overlay-score-txt').textContent  = 'Score : ' + score;
+      setTimeout(() => {
+        afficherScoreFinal();
+        showScreen('screen-gameover');
+      }, 1500);
+    }
 
-function afficherScoreFinal() {
-  document.getElementById('go-score').textContent  = score;
-  document.getElementById('go-record').textContent = bestScore;
+    function afficherScoreFinal() {
+      document.getElementById('go-score').textContent  = score;
+      document.getElementById('go-record').textContent = bestScore;
 
-  let rang = 'Débutant';
-  if      (score >= 50) rang = 'Expert';
-  else if (score >= 30)  rang = 'Avancé';
-  else if (score >= 15)  rang = 'Intermédiaire';
-  document.getElementById('go-rang').textContent = rang;
+      let rang = 'Débutant';
+      if      (score >= 50) rang = 'Expert';
+      else if (score >= 30) rang = 'Avancé';
+      else if (score >= 15) rang = 'Intermédiaire';
+      document.getElementById('go-rang').textContent = rang;
 
-  const idx = score>=100?3 : score>=50?2 : score>=20?1 : 0;
-  document.getElementById('gameover-subtitle').textContent =
-    ["Continue de t'entraîner ! 💪",'Bonne partie ! 🎯','Excellent score ! 🔥','Tu es imbattable ! 🏆'][idx];
-}
+      const idx = score>=100?3 : score>=50?2 : score>=20?1 : 0;
+      document.getElementById('gameover-subtitle').textContent =
+        ["Continue de t'entraîner ! 💪",'Bonne partie ! 🎯','Excellent score ! 🔥','Tu es imbattable ! 🏆'][idx];
+    }
 
     document.addEventListener('keydown', e => {
       const map = { ArrowLeft:'LEFT', ArrowRight:'RIGHT', ArrowUp:'UP', ArrowDown:'DOWN' };
@@ -271,35 +297,22 @@ function afficherScoreFinal() {
       }
     });
 
+    // Ouvre le client mail avec le score pré-rempli
     function envoyerScoreMail() {
-  const sujet = encodeURIComponent('Mon score Snake Game 🐍');
-  const corps = encodeURIComponent(
-    'Bonjour !\n\n' +
-    'Voici mon score pour la partie Snake :\n\n' +
-    '🎯 Score : ' + score + ' points\n' +
-    '🏆 Meilleur score : ' + bestScore + ' points\n' +
-    '👤 Joueur : ' + PSEUDO + '\n\n' +
-    '📅 Date : ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
-    'Bonne chance pour la prochaine partie !'
-  );
-  window.location.href = 'mailto:?subject=' + sujet + '&body=' + corps;
-}
+      const sujet = encodeURIComponent('Mon score Snake Game 🐍');
+      const corps = encodeURIComponent(
+        'Bonjour !\n\n' +
+        'Voici mon score pour la partie Snake :\n\n' +
+        '🎯 Score : ' + score + ' points\n' +
+        '🏆 Meilleur score : ' + bestScore + ' points\n' +
+        '👤 Joueur : ' + PSEUDO + '\n\n' +
+        '📅 Date : ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
+        'Bonne chance pour la prochaine partie !'
+      );
+      window.location.href = 'mailto:?subject=' + sujet + '&body=' + corps;
+    }
 
-
-</script>
-
-  <div id="modal-mail" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999; justify-content:center; align-items:center;">
-  <div style="background:#1a1a2e; padding:2rem; border-radius:1rem; text-align:center; width:300px;">
-    <p style="color:white; font-size:1.1rem; margin-bottom:1rem;">📧 Entrez votre adresse mail</p>
-    <input id="input-mail" type="email" placeholder="exemple@mail.com"
-      style="width:100%; padding:0.6rem; border-radius:0.5rem; border:none; margin-bottom:1rem;" />
-    <div style="display:flex; gap:0.5rem; justify-content:center;">
-      <button class="btn-green" onclick="confirmerEnvoi()">Envoyer</button>
-      <button class="btn-secondary" onclick="document.getElementById('modal-mail').style.display='none'">Annuler</button>
-    </div>
-    <p id="mail-retour" style="color:#00ff7f; margin-top:0.8rem; font-size:0.9rem;"></p>
-  </div>
-</div>
+  </script>
 
 </body>
 </html>
