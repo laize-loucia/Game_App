@@ -2,8 +2,10 @@
 # Contexte
 
 Nous avons développé un jeu simple de snake pour enfants de 6 à 10 ans. 
+
 L'interface est épurée et simple avec des boutons de call-to-action bien visibles.
-Le but est de ne pas disperser l'attention de l'enfant avec trop d'éléments et de détails.
+Le but est de ne pas disperser l'attention de l'enfant avec trop d'éléments et de détails.&nbsp;
+
 L'enfant peut jouer au jeux sous le contrôle du parent qui a le mot de passe et l'accès au compte de mail.
 **Le mot de passe pour jouer est Snake2026!*
 
@@ -43,8 +45,6 @@ php -v.
 &nbsp;
 
 Ouvrir dans le navigateur
-
-&nbsp;
 
 ```php -S localhost:8000```
 
