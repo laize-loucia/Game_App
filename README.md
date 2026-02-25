@@ -48,6 +48,4 @@ Ouvrir dans le navigateur
 
 ```php -S localhost:8000```
 
-ouvre ```http://localhost:8000/index.php``` dans le navigateur
-
 
