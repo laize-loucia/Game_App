@@ -23,5 +23,5 @@ $status = ($logOk && $sessionOk) ? 'OK' : 'ERREUR';
         <li>Logs : <?= $logOk ? ' OK' : ' NOTOK' ?></li>
         <li>PHP :  <?= phpversion() ?></li>
     </ul>
-</body>git
+</body>
 </html>
