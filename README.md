@@ -7,17 +7,14 @@ Le but est de ne pas disperser l'attention de l'enfant avec trop d'éléments et
 L'enfant peut jouer au jeux sous le contrôle du parent qui a le mot de passe et l'accès au compte de mail.
 **Le mot de passe pour jouer est Snake2026!*
 
-L'organisation du code n'a pu être finalisé mais en raison de contraintes de temps.
 
-# Structure
+# Structure souhaitée
 
 <center>
 
 ![Architecture](Structure.png "TRstrcuture").
 
 </center>
-
-
 
 
 &nbsp;
@@ -29,16 +26,6 @@ Le jeu est entièrement écrit en **JS** et tourne dans le navigateur.
 &nbsp;
 La partie back-end est codée en langage **PHP**, pour les fonctionnalités de gérer le score, vérifier le mot de passe, la connexion, détruire la session et garder en écrit les événements
 
-
-ordre
-config.php → mot de passe
-LogModel.php → logs
-AuthModel.php → vérification mot de passe et session
-login.php → formulaire et appel AuthModel
-game.php → protection session et affichage jeu
-logout.php → destruction session
-score.php → validation et email
-health.php → page santé
 # Implémentation
 
 &nbsp;
