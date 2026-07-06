@@ -47,6 +47,10 @@ php -v.
 
 &nbsp;
 
+
 Ouvrir dans le navigateur ```php -S localhost:8000```
 
+
+License
+Projet académique - CNAM
 
