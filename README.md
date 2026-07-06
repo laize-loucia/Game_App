@@ -2,8 +2,7 @@
 # Snake Game - Projet IHM (février 2026)
 
 Nous avons développé un mini-jeu interactif de snake dans le cadre du projet IHM (Interface Homme-Machine) pour la licence CNAM.     
-Le projet combine le gameplay du célèbre jeu "Snake Game" pour enfants de 6 à 10 ans.
-L'enfant peut jouer au jeux sous le contrôle du parent qui a le mot de passe et l'accès au compte de mail.Le pseudo est admin et le mot de passe pour jouer est *1234*
+Le jeu s'adresse aux enfants de 6 à 10 ans. Le pseudo est admin et le mot de passe pour jouer est *1234*
 
 
 ## Fonctionnalités 
