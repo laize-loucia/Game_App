@@ -17,11 +17,7 @@ L'enfant peut jouer au jeux sous le contrôle du parent qui a le mot de passe et
 - Page d'accueil : Interface principale du projet
 - Écran de fin : Affichage quand le joueur perd
 
-PHP pour la gestion des sessions
-
-
-
-# Structure 
+# Structure du projet
 
 <center>
 
@@ -69,7 +65,5 @@ Ouvrir dans le navigateur ```php -S localhost:8000```
 
 
 # License
-Projet académique - CNAM
-
 Projet académique - CNAM
 
